@@ -2,6 +2,7 @@ import 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js';
 import { workerEvents } from '../events/constants.js';
 
 console.log('Model training worker initialized');
+let _model = {};
 let _globalCtx = {};
 const WEIGHTS = {
     category: 0.4,
@@ -132,9 +133,63 @@ function createTrainingData(context) {
             labels.length,
             context.dimentions * 2
         ]),
-        ys: tf.tensor1d(labels),
+        ys: tf.tensor2d(labels, [labels.length, 1]),
         inputDimention: context.dimentions * 2,
     }
+}
+
+async function configureNeuralNetAndTrain(trainData) {
+    const model = tf.sequential();
+
+    model.add(
+        tf.layers.dense({
+            inputShape: [trainData.inputDimention],
+            units: 128,
+            activation: 'relu'
+        })
+    );
+
+    model.add(
+        tf.layers.dense({
+            units: 64,
+            activation: 'relu'
+        })
+    );
+
+    model.add(
+        tf.layers.dense({
+            units: 32,
+            activation: 'relu'
+        })
+    );
+
+    model.add(
+        tf.layers.dense({ units: 1, activation: 'sigmoid' })
+    );
+
+    model.compile({
+        optimizer: tf.train.adam(0.01),
+        loss: 'binaryCrossentropy',
+        metrics: ['accuracy']
+    });
+
+    await model.fit(trainData.xs, trainData.ys, {
+        epochs: 100,
+        batchSize: 32,
+        shuffle: true,
+        callbacks: {
+            onEpochEnd: (epoch, logs) => {
+                postMessage({
+                    type: workerEvents.trainingLog,
+                    epoch: epoch,
+                    loss: logs.loss,
+                    accuracy: logs.acc
+                });
+            }
+        }
+    });
+
+    return model;
 }
 
 async function trainModel({ users }) {
@@ -153,21 +208,10 @@ async function trainModel({ users }) {
     });
 
     const trainData = createTrainingData(context);
-    debugger
+    _model = await configureNeuralNetAndTrain(trainData);
 
-    postMessage({
-        type: workerEvents.trainingLog,
-        epoch: 1,
-        loss: 1,
-        accuracy: 1
-    });
-
-    setTimeout(() => {
-        postMessage({ type: workerEvents.progressUpdate, progress: { progress: 100 } });
-        postMessage({ type: workerEvents.trainingComplete });
-    }, 1000);
-
-
+    postMessage({ type: workerEvents.progressUpdate, progress: { progress: 100 } });
+    postMessage({ type: workerEvents.trainingComplete });
 }
 
 function recommend(user, ctx) {
