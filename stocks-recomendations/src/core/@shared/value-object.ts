@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import isEqual from "lodash/isEqual";
 
 export abstract class ValueObject<Value = any> {
   protected readonly _value: Value;
@@ -35,7 +35,7 @@ export function deepFreeze<T>(obj: T): T {
     for (const name of propNames) {
       const value: T[keyof T] = obj[name as keyof T];
 
-      if (value && typeof value == 'object') {
+      if (value && typeof value == "object") {
         deepFreeze(value);
       }
     }
