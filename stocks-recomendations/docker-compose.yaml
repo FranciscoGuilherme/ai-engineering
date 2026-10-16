@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   stocks-recomendations:
     build: .
@@ -9,6 +7,34 @@ services:
       - node_modules:/home/node/app/node_modules
     ports:
       - "8080:8080"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_NAME: ${DB_NAME:-stocks_recommendations}
+      POSTGRES_USER: ${DB_USER:-stocks}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stocks_dev}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: stocks-recomendations-db
+    environment:
+      POSTGRES_DB: ${DB_NAME:-stocks_recommendations}
+      POSTGRES_USER: ${DB_USER:-stocks}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stocks_dev}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   node_modules:
+  postgres_data:
