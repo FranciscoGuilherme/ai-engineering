@@ -3,3 +3,6 @@ dist/
 coverage/
 node_modules/
 .history/
+.env
+.env.*
+!.env.example
