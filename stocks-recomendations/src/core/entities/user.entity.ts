@@ -1,12 +1,12 @@
 import Entity from "../@shared/entity";
-import UniqueEntityId from "../@shared/value-objects/id.vo";
+import UniqueEntityId from "../@shared/value-objects/unique-entity-id.vo";
 
 type UserProps = {
   age: number;
   riskTolerance: string;
   investmentGoal: string;
   preferredSectors: string[];
-}
+};
 
 export class UserId extends UniqueEntityId {}
 
