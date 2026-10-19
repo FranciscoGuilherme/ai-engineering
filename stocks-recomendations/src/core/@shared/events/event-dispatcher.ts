@@ -14,7 +14,7 @@ export default class EventDispatcher implements EventDispatcherInterface<EventIn
   }
 
   notify(event: EventInterface): void {
-    const eventName = event.constructor.name;
+    const eventName = event.eventName;
     if (this.eventHandlers[eventName]) {
       this.eventHandlers[eventName].forEach((handler) => handler.handle(event));
     }
