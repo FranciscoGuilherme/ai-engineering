@@ -1,4 +1,4 @@
-import Stock from "../entity/stock.entity";
 import RepositoryInterface from "../@shared/repository-interface";
+import Stock from "../entities/stock.entity";
 
 export default interface StockRepositoryInterface extends RepositoryInterface<Stock> {}
