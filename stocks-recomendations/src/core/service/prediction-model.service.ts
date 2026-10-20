@@ -26,12 +26,12 @@ export default class PredictionModelService {
   private context: Context;
 
   constructor(
-    private readonly modelData: { users: User[]; stocks: Stock[] },
+    private readonly trainData: { users: User[]; stocks: Stock[] },
     private readonly eventDispatcher: EventDispatcherInterface<EventInterface>,
   ) {
     this.context = new Context({
-      users: this.modelData.users,
-      stocks: this.modelData.stocks,
+      users: this.trainData.users,
+      stocks: this.trainData.stocks,
     });
   }
 
@@ -59,8 +59,8 @@ export default class PredictionModelService {
       throw new Error("Model not created");
     }
     const trainData = await this.createTrainingData(
-      this.modelData.users,
-      this.modelData.stocks,
+      this.trainData.users,
+      this.trainData.stocks,
     );
     await this.configureNeuralNet(trainData);
     const event = new PredictionCalculatedEvent();
