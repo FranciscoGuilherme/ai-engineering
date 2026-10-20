@@ -1,0 +1,63 @@
+erDiagram
+    STOCK {
+        UUID id PK
+        NUMERIC close_price
+        VARCHAR sector
+        VARCHAR exchange
+        risk_level risk_level
+        NUMERIC revenue
+        VECTOR(5) vector
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+        TIMESTAMPTZ deleted_at
+    }
+
+    STOCK_PRICES {
+        UUID id PK
+        UUID stock_id FK
+        NUMERIC price
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ deleted_at
+    }
+
+    APP_USER {
+        UUID id PK
+        INTEGER age
+        risk_level risk_tolerance
+        VARCHAR investment_goal
+        TEXT_ARRAY preferred_sectors
+        VECTOR(5) vector
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    PORTFOLIO_ASSETS {
+        UUID id PK
+        UUID user_id FK
+        UUID stock_id FK
+        NUMERIC quantity
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ deleted_at
+    }
+
+    USER_TRAIN_DATA {
+        UUID id PK
+        UUID user_id FK
+        INTEGER model_version
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ deleted_at
+    }
+
+    STOCK_TRAIN_DATA {
+        UUID id PK
+        UUID stock_id FK
+        INTEGER model_version
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ deleted_at
+    }
+
+    STOCK ||--o{ STOCK_PRICES : possui
+    APP_USER ||--o{ PORTFOLIO_ASSETS : possui
+    STOCK ||--o{ PORTFOLIO_ASSETS : compoe
+    APP_USER ||--o{ USER_TRAIN_DATA : aparece_em
+    STOCK ||--o{ STOCK_TRAIN_DATA : aparece_em
