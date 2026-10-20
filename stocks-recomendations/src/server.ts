@@ -13,9 +13,9 @@ app.use(router);
 async function startServer(): Promise<void> {
   try {
     await sequelize.authenticate();
-    const modelData = { users: [], stocks: [] };
+    const trainData = { users: [], stocks: [] };
     const predictionModel = new PredictionModelService(
-      modelData,
+      trainData,
       getEventDispatcher(),
     );
     app.listen(8080, () => console.log("server running on port 8080"));
