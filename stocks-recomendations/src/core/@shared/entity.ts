@@ -1,6 +1,7 @@
+import EntityInterface from "./entity.interface";
 import UniqueEntityId from "./value-objects/unique-entity-id.vo";
 
-export default abstract class Entity<Props> {
+export default abstract class Entity<Props> implements EntityInterface {
   public readonly uniqueEntityId: UniqueEntityId;
 
   protected constructor(
