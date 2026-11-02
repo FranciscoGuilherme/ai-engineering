@@ -1,4 +1,5 @@
 import Entity from "../@shared/entity";
+import EntityInterface from "../@shared/entity.interface";
 import UniqueEntityId from "../@shared/value-objects/unique-entity-id.vo";
 
 type StockProps = {
@@ -9,7 +10,10 @@ type StockProps = {
   revenue: number;
 };
 
-export default class Stock extends Entity<StockProps> {
+export default class Stock
+  extends Entity<StockProps>
+  implements EntityInterface
+{
   private _price: number;
   private _sector: string;
   private _exchange: string;
