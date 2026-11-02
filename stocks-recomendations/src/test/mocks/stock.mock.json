@@ -1,0 +1,13 @@
+{
+  "exchange": "NMS",
+  "symbol": "AAPL",
+  "shortname": "Apple Inc.",
+  "longname": "Apple Inc.",
+  "sector": "Technology",
+  "industry": "Consumer Electronics",
+  "currentprice": 254.49,
+  "marketcap": 3846819807232,
+  "ebitda": 134660997120,
+  "revenuegrowth": 0.061,
+  "risk_level": "low"
+}

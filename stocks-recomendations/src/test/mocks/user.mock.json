@@ -1,0 +1,21 @@
+{
+  "id": "user_001",
+  "age": 32,
+  "risk_tolerance": "moderate",
+  "investment_goal": "long_term",
+  "preferred_sectors": ["Technology", "Healthcare"],
+  "purchase_history": [
+    {
+      "purchased_at": "2025-03-12",
+      "rest": {}
+    },
+    {
+      "purchased_at": "2025-06-08",
+      "rest": {}
+    },
+    {
+      "purchased_at": "2025-09-21",
+      "rest": {}
+    }
+  ]
+}
