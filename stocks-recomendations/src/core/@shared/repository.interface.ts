@@ -1,4 +1,6 @@
-export default interface RepositoryInterface<T> {
+import EntityInterface from "./entity.interface";
+
+export default interface RepositoryInterface<T extends EntityInterface> {
   findAll(): Promise<T[]>;
   findById(id: string): Promise<T | null>;
   create(item: T): Promise<T>;
