@@ -1,5 +1,6 @@
-import { Column, DataType, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Table } from "sequelize-typescript";
 import BaseModel from "./base.model";
+import StockModel from "./stock.model";
 
 @Table({
   tableName: "app_user",
@@ -26,6 +27,9 @@ export default class UserModel extends BaseModel {
 
   @Column({ allowNull: false, type: DataType.TSVECTOR })
   declare vector: number[];
+
+  @HasMany(() => StockModel)
+  declare stocks: StockModel[];
 
   @Column({ type: DataType.DATE, field: "updated_at" })
   declare updatedAt: Date;
